@@ -1,4 +1,5 @@
 # .gitignore for backend
+*.env
 
 # Node dependencies
 backend/src/node_modules/

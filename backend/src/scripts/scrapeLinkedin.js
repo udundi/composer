@@ -1,11 +1,16 @@
 // /backend/src/scripts/scrapeLinkedin.js
-require('dotenv').config({ path: __dirname + '/../.env' });
-const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
+// require('dotenv').config({ path: __dirname + '/../.env' });
+// Instead of: require('dotenv').config({ path: ... })
+import dotenv from 'dotenv';
+import axios from 'axios';
+import fs from 'fs';
+import path from 'path';
+
+dotenv.config({ path: path.resolve('./src/.env') });
 
 const APIFY_TOKEN = process.env.APIFY_TOKEN;
 const ACTOR_ID = 'curious_coder~linkedin-post-search-scraper';
+// const ACTOR_ID = 'apify~hello-world';
 
 const INPUT = {
   search: "leadership OR AI OR marketing OR remote work",
