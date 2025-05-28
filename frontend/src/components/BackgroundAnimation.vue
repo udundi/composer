@@ -1,76 +1,51 @@
 <template>
-  <div class="fixed inset-0 w-full h-full pointer-events-none z-0">
+  <div
+    class="fixed inset-0 w-full h-full pointer-events-none z-0"
+    :style="{
+      '--animation-speed': loading ? '8s' : '35s',
+      '--bg-animation-speed': loading ? '7s' : '30s'
+    }"
+  >
     <div class="animation-wrapper">
-        <div class="rotating-group">
-          <div class="inner1"></div>
-          <div class="inner2"></div>
-        </div>
-        <div class="rotating-group2">
-          <div class="inner1"></div>
-          <div class="inner2"></div>
-        </div>
+      <div class="rotating-group">
+        <div class="inner1"></div>
+        <div class="inner2"></div>
       </div>
-      <div class="frame"></div>
-      <div class="bg-wrapper">
-        <div class="inner">
-          <div class="bg"></div>
-        </div>
+      <div class="rotating-group2">
+        <div class="inner1"></div>
+        <div class="inner2"></div>
       </div>
     </div>
+    <div class="frame"></div>
+    <div class="bg-wrapper">
+      <div class="inner">
+        <div class="bg"></div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-// No JS needed for this animation component
+defineProps({ loading: Boolean })
 </script>
 
-<style lang="scss">
-html,
-body {
-  overflow: hidden;
+<style lang="scss" scoped>
+:root {
+  --animation-speed: 35s;
+  --bg-animation-speed: 30s;
 }
 
-#hubspot-messages-iframe-container,
-#chat-widget-iframe {
-  display: none !important;
+.animation-wrapper .rotating-group,
+.animation-wrapper .rotating-group2,
+.animation-wrapper .rotating-group .inner1,
+.animation-wrapper .rotating-group .inner2,
+.animation-wrapper .rotating-group2 .inner1,
+.animation-wrapper .rotating-group2 .inner2 {
+  animation: rotating-group var(--animation-speed) linear infinite;
 }
 
-.chat-logo {
-  font-size: 3.5rem;
-  font-weight: 500;
-}
-
-.beta-icon {
-  border-width: 1px;
-  border-color: rgb(255 255 255 / 40%);
-}
-
-.wrapper {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 0;
-  height: min-content;
-  justify-content: flex-start;
-  overflow: visible;
-  position: relative;
-  padding: 0;
-  background: #080220;
-}
-
-.search-wrapper {
-  > div {
-    background: rgb(2 1 8 / 75%);
-    box-shadow: rgb(255 255 255 / 10%) 0 0 0 1.5px;
-    transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-
-    &:hover {
-      box-shadow: rgb(255 255 255 / 75%) 0 0 0 1.5px;
-    }
-
-    &:active {
-      box-shadow: rgb(255 255 255 / 50%) 0 0 0 1.5px;
-    }
-  }
+.bg {
+  animation: bg var(--bg-animation-speed) linear infinite;
 }
 
 .animation-wrapper {
@@ -94,7 +69,6 @@ body {
     position: absolute;
     top: calc(52% - 576px / 2);
     width: 31%;
-    animation: rotating-group 35s linear infinite;
 
     .inner1 {
       background: linear-gradient(180deg, #2360ff 0%, #8423ff 100%);
@@ -108,7 +82,6 @@ body {
       position: absolute;
       width: 683px;
       will-change: transform;
-      animation: rotating-group 30s linear infinite;
     }
 
     .inner2 {
@@ -122,7 +95,6 @@ body {
       position: absolute;
       width: 170px;
       will-change: transform;
-      animation: rotating-group 30s linear infinite;
     }
   }
 
@@ -135,7 +107,6 @@ body {
     position: absolute;
     top: calc(52% - 576px / 2);
     width: 31%;
-    animation: rotating-group 40s linear infinite;
 
     .inner1 {
       background: linear-gradient(140deg, #2360ff 0%, #9f0fff 100%);
@@ -149,7 +120,6 @@ body {
       right: -434px;
       width: 705px;
       will-change: transform;
-      animation: rotating-group 30s linear infinite;
     }
 
     .inner2 {
@@ -164,7 +134,6 @@ body {
       right: -266px;
       width: 185px;
       will-change: transform;
-      animation: rotating-group 30s linear infinite;
     }
   }
 }
@@ -210,7 +179,6 @@ body {
       width: 400%;
       height: 400%;
       position: absolute;
-      animation: bg 30s linear infinite;
     }
   }
 }
@@ -219,30 +187,15 @@ body {
   0% {
     transform: rotate(0deg);
   }
-
   100% {
     transform: rotate(360deg);
   }
 }
 @keyframes bg {
-  0% {
-    transform: translateX(0%), translateY(0%);
-  }
-
-  25% {
-    transform: translateX(10%), translateY(15%);
-  }
-
-  50% {
-    transform: translateX(17%), translateY(25%);
-  }
-
-  75% {
-    transform: translateX(-14%), translateY(-10%);
-  }
-
-  100% {
-    transform: translateX(0%), translateY(0%);
-  }
+  0% { transform: translateX(0%), translateY(0%);}
+  25% { transform: translateX(10%), translateY(15%);}
+  50% { transform: translateX(17%), translateY(25%);}
+  75% { transform: translateX(-14%), translateY(-10%);}
+  100% { transform: translateX(0%), translateY(0%);}
 }
 </style>

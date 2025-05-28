@@ -1,7 +1,9 @@
 <template>
   <!-- <div class="relative min-h-screen overflow-hidden bg-[#080220]"> -->
   <!-- <div class="fixed inset-0 w-full h-full pointer-events-none overflow-hidden z-0 bg-[#080220]"> -->
-  <div class="relative min-h-screen bg-[#080220]">
+  <div class="relative min-h-screen overflow-x-hidden bg-[#080220]">
+    <!-- Pass loading to the background animation -->
+    <BackgroundAnimation :loading="loading" />
     <!-- Main Content -->
     <div class="relative z-10 max-w-4xl mx-auto py-12 px-4">
       <div class="mb-8 flex flex-col items-center justify-center space-x-4 md:flex-row">
