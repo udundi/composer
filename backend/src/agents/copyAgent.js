@@ -8,7 +8,7 @@ try { posts = JSON.parse(fs.readFileSync(postsPath, 'utf8')); } catch { posts = 
 
 export default {
   generateCopy: async ({ idea, tone = 'conversational', jobCategory }) => {
-    const prompt = `Write a viral LinkedIn post for a ${jobCategory || 'professional'} using the idea: "${idea}". Use a ${tone} tone. The post should be authentic, engaging, and formatted like top-performing posts. No need to provide any emojis, hashtags or any other comments except for the text of post.`;
+    const prompt = `Write a viral LinkedIn post for a ${jobCategory || 'professional'} using the idea: "${idea}". Use a ${tone} tone. The post should be authentic, engaging, and formatted like top-performing posts. You can use hashtags where it makes sense, but never overdo it. No need to provide hashtags or any other comments except for the text of post.`;
     try {
       return await generateCompletion(prompt, 1.0, true);
     } catch (e) {
