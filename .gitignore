@@ -1,0 +1,20 @@
+# .gitignore for backend
+
+# Node dependencies
+backend/src/node_modules/
+# Environment variables
+backend/src/.env
+# Logs
+backend/src/npm-debug.log*
+backend/src/yarn-debug.log*
+backend/src/yarn-error.log*
+# Data and temp
+backend/src/data/*.json
+backend/src/data/*.jsonl
+backend/src/data/*.csv
+
+# .gitignore for frontend
+
+frontend/src/node_modules/
+frontend/src/dist/
+frontend/src/.env
