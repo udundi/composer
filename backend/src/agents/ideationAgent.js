@@ -12,6 +12,7 @@ export default {
     try {
       return await generateCompletion(prompt, 0.9, true);
     } catch (e) {
+      console.error('OpenAI error in ideationAgent:', e);
       let filtered = posts;
       if (topic) filtered = filtered.filter(p => p.topic === topic);
       if (profession) filtered = filtered.filter(p => p.jobCategory === profession);
