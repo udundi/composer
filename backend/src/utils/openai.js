@@ -9,7 +9,7 @@ const openai = new OpenAI({
 const FINE_TUNED_MODEL = process.env.OPENAI_FINE_TUNED_MODEL;
 
 export async function generateCompletion(prompt, temperature = 0.8, useFineTuned = false) {
-  const model = useFineTuned && FINE_TUNED_MODEL ? FINE_TUNED_MODEL : 'gpt-4o';
+  const model = useFineTuned && FINE_TUNED_MODEL ? FINE_TUNED_MODEL : 'gpt-4.1-2025-04-14';
   const res = await openai.chat.completions.create({
     model,
     messages: [{ role: "user", content: prompt }],
