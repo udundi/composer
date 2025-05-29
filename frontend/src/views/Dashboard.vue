@@ -12,8 +12,38 @@
         <Selector v-model="profession" :options="professionOptions" label="Job Category" placeholder="Select a category..." class="mb-4"/>
         <Selector v-model="topic" :options="topicOptions" label="Topic" placeholder="Select a topic..." class="mb-4"/>
         <Selector v-model="tone" :options="toneOptions" label="Tone" placeholder="Select a tone..." class="mb-4"/>
-        <SubmitButton :loading="loading" />
+        <SubmitButton :loading="loading" class="w-full max-w-xs self-end" />
       </form>
+      
+      <ul v-if="loading" class="mb-4 w-full max-w-xs self-end space-y-2">
+        <li v-for="step in progressSteps" :key="step.label" class="flex items-center space-x-2">
+          <span v-if="step.status === 'pending'">
+            <svg class="w-4 h-4 animate-spin text-blue-300" fill="none" viewBox="0 0 16 16">
+              <circle class="opacity-25" cx="8" cy="8" r="5" stroke="currentColor" stroke-width="3"/>
+              <path class="opacity-90" fill="currentColor" d="M8 2a6 6 0 016 6h-2a4 4 0 00-4-4V2z"/>
+            </svg>
+          </span>
+          <span v-else-if="step.status === 'success'">
+            <svg class="w-4 h-4 text-green-400" fill="none" viewBox="0 0 16 16">
+              <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 8l3 3 5-5"/>
+            </svg>
+          </span>
+          <span v-else-if="step.status === 'error'">
+            <svg class="w-4 h-4 text-red-400" fill="none" viewBox="0 0 16 16">
+              <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M8 4v4m0 4h.01"/>
+            </svg>
+          </span>
+          <span
+            :class="[
+              'text-sm',
+              step.status === 'pending' ? 'text-blue-300' : step.status === 'success' ? 'text-green-400' : 'text-red-400'
+            ]"
+          >
+            {{ step.label }}
+          </span>
+        </li>
+      </ul>
+
       <PostGrid :posts="posts" />
       <div v-if="error" class="text-red-400 mt-4 text-center">{{ error }}</div>
     </div>
@@ -71,15 +101,39 @@ const toneOptions = [
   "Analytical", "Critical", "Empowering", "Storytelling", "Reflective", "Celebratory", "Bold", "Friendly"
 ]
 
+const progressSteps = ref([]) // [{ label: "Generating idea...", status: "pending/success/error" }, ...]
+
 async function generatePost() {
   loading.value = true
   error.value = ''
+  progressSteps.value = [
+    { label: "Generating post idea", status: "pending" },
+    { label: "Writing LinkedIn copy", status: "pending" },
+    { label: "Suggesting media", status: "pending" },
+    { label: "Scoring virality", status: "pending" }
+  ]
   try {
+    // 1. Idea
+    let idx = 0
     const idea = await generateIdea({ profession: profession.value, topic: topic.value })
-    const text = await generateCopy({ idea, tone: tone.value, jobCategory: profession.value })
-    const { mediaType, mediaUrl } = await suggestMedia({ idea, copy: text })
-    const score = await scorePost({ idea, copy: text, mediaType })
+    progressSteps.value[idx].status = "success"
 
+    // 2. Copy
+    idx = 1
+    const text = await generateCopy({ idea, tone: tone.value, jobCategory: profession.value })
+    progressSteps.value[idx].status = "success"
+
+    // 3. Media
+    idx = 2
+    const { mediaType, mediaUrl } = await suggestMedia({ idea, copy: text })
+    progressSteps.value[idx].status = "success"
+
+    // 4. Score
+    idx = 3
+    const score = await scorePost({ idea, copy: text, mediaType })
+    progressSteps.value[idx].status = "success"
+
+    // Add post
     posts.value.unshift({
       id: Date.now(),
       idea,
@@ -91,8 +145,14 @@ async function generatePost() {
     })
   } catch (e) {
     error.value = e.message || String(e)
+    // Optionally, set current step to error
+    for (const step of progressSteps.value) {
+      if (step.status === "pending") step.status = "error"
+    }
   } finally {
     loading.value = false
+    // Optionally, hide progress after a second
+    setTimeout(() => { progressSteps.value = [] }, 1200)
   }
 }
 </script>
