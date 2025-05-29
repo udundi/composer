@@ -2,7 +2,7 @@
   <button
     :disabled="loading"
     type="submit"
-    class="flex items-center justify-center w-64 h-12 mb-3 self-end rounded-lg bg-[#232255] text-white shadow-lg hover:bg-[#313168] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed group"
+    class="flex items-center justify-center w-48 h-12 mb-3 self-end rounded-lg bg-[#232255] text-white shadow-lg hover:bg-[#313168] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed group"
   >
     <span v-if="loading" class="flex items-center justify-center w-12">
       <svg class="w-9 h-9 animate-spin text-indigo-300" viewBox="0 0 50 50" fill="none">
