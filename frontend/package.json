@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.7.23",
     "vue": "^3.4.0",
     "vue3-select": "^0.1.2"
   },
